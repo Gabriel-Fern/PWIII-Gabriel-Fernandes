@@ -1,0 +1,267 @@
+/* =============================================
+   Jogo da Velha — Estilos
+   Baseado no tutorial oficial do React
+   ============================================= */
+
+/* Reset e variáveis do tema */
+:root {
+  --primary: #7c3aed;
+  --primary-glow: rgba(124, 58, 237, 0.4);
+  --accent-x: #f43f5e;
+  --accent-o: #06b6d4;
+  --bg-page: #0f0e17;
+  --bg-card: rgba(255, 255, 255, 0.04);
+  --bg-card-hover: rgba(255, 255, 255, 0.08);
+  --border: rgba(255, 255, 255, 0.08);
+  --text: #a390c7;
+  --text-strong: #fffffe;
+  --winning: #fbbf24;
+  --winning-glow: rgba(251, 191, 36, 0.35);
+  --radius: 16px;
+  --shadow-card: 0 8px 32px rgba(0, 0, 0, 0.5);
+}
+
+/* Fundo da página */
+body {
+  background: var(--bg-page);
+  background-image:
+    radial-gradient(ellipse at 20% 20%, rgba(124, 58, 237, 0.15) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 80%, rgba(6, 182, 212, 0.1) 0%, transparent 60%);
+  min-height: 100dvh;
+  margin: 0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Reset do #root para centralizar bem */
+#root {
+  width: 100%;
+  max-width: 900px;
+  min-height: unset;
+  border-inline: none;
+  margin: 0 auto;
+  text-align: center;
+  box-sizing: border-box;
+  padding: 40px 20px;
+}
+
+/* =============================================
+   Cabeçalho do Jogo
+   ============================================= */
+.game-header {
+  margin-bottom: 40px;
+}
+
+.game-header h1 {
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  letter-spacing: -2px;
+  background: linear-gradient(135deg, #c084fc, #818cf8, #38bdf8);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin: 0 0 8px;
+}
+
+.subtitle {
+  color: var(--text);
+  font-size: 14px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin: 0;
+}
+
+/* =============================================
+   Layout do Jogo
+   ============================================= */
+.game {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.game-body {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 32px;
+  align-items: flex-start;
+  justify-content: center;
+}
+
+/* =============================================
+   Status (Próximo jogador / Vencedor)
+   ============================================= */
+.status {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--text-strong);
+  margin-bottom: 20px;
+  padding: 10px 20px;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  backdrop-filter: blur(10px);
+  letter-spacing: 0.5px;
+  transition: all 0.3s ease;
+}
+
+/* =============================================
+   Tabuleiro
+   ============================================= */
+.game-board {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px;
+  backdrop-filter: blur(20px);
+  box-shadow: var(--shadow-card);
+}
+
+.board-row {
+  display: flex;
+}
+
+/* =============================================
+   Casas do Tabuleiro (Square)
+   ============================================= */
+.square {
+  width: 90px;
+  height: 90px;
+  font-size: 2.4rem;
+  font-weight: 900;
+  cursor: pointer;
+  border: 2px solid rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text-strong);
+  transition: background 0.2s, transform 0.15s, box-shadow 0.2s, color 0.2s;
+  position: relative;
+  outline: none;
+  font-family: inherit;
+  letter-spacing: -1px;
+}
+
+/* Hover nas casas vazias */
+.square:hover:not(:disabled) {
+  background: rgba(124, 58, 237, 0.15);
+  transform: scale(1.05);
+  box-shadow: 0 0 20px var(--primary-glow);
+  cursor: pointer;
+}
+
+/* Cor do X */
+.square:not(.winning) {
+  color: var(--text-strong);
+}
+
+/* Quadrados vencedores destacados */
+.square.winning {
+  background: rgba(251, 191, 36, 0.15);
+  border-color: var(--winning);
+  color: var(--winning);
+  animation: pulse-win 0.6s ease-in-out;
+  box-shadow: 0 0 24px var(--winning-glow);
+}
+
+@keyframes pulse-win {
+  0%   { transform: scale(1); }
+  50%  { transform: scale(1.12); }
+  100% { transform: scale(1); }
+}
+
+/* Bordas entre as casas para formar o grid */
+.board-row .square:not(:last-child) {
+  border-right: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+.board-row:not(:last-child) .square {
+  border-bottom: 2px solid rgba(255, 255, 255, 0.15);
+}
+
+/* Cantos arredondados do tabuleiro */
+.board-row:first-child .square:first-child { border-radius: 12px 0 0 0; }
+.board-row:first-child .square:last-child  { border-radius: 0 12px 0 0; }
+.board-row:last-child  .square:first-child { border-radius: 0 0 0 12px; }
+.board-row:last-child  .square:last-child  { border-radius: 0 0 12px 0; }
+
+/* =============================================
+   Painel de Histórico
+   ============================================= */
+.game-info {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 24px;
+  min-width: 200px;
+  max-width: 260px;
+  backdrop-filter: blur(20px);
+  box-shadow: var(--shadow-card);
+  text-align: left;
+}
+
+.game-info h2 {
+  font-size: 1rem;
+  font-weight: 700;
+  color: var(--text-strong);
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  margin: 0 0 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.move-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.move-btn {
+  width: 100%;
+  text-align: left;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-size: 13px;
+  font-family: inherit;
+  padding: 8px 12px;
+  cursor: pointer;
+  transition: background 0.2s, color 0.2s, border-color 0.2s, transform 0.15s;
+}
+
+.move-btn:hover {
+  background: rgba(124, 58, 237, 0.2);
+  border-color: var(--primary);
+  color: var(--text-strong);
+  transform: translateX(4px);
+}
+
+/* =============================================
+   Responsividade
+   ============================================= */
+@media (max-width: 600px) {
+  .square {
+    width: 70px;
+    height: 70px;
+    font-size: 1.9rem;
+  }
+
+  .game-info {
+    min-width: unset;
+    max-width: 100%;
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  .game-body {
+    gap: 20px;
+  }
+}
